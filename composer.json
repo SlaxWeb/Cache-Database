@@ -1,0 +1,36 @@
+{
+    "name": "slaxweb/cache-database",
+    "description": "Cache Sub-Component for caching Database results",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomaz Lovrec",
+            "email": "tomaz.lovrec@gmail.com"
+        }
+    ],
+    "require": {
+        "php":  ">=7.0.0",
+        "slaxweb/database": "dev-master",
+        "slaxweb/cache": "dev-master"
+    },
+    "require-dev": {
+        "codeception/codeception": "~2.2",
+        "codeception/specify": "*",
+        "mockery/mockery": "~0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlaxWeb\\Cache\\Database\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SlaxWeb\\Cache\\Database\\Test\\Unit\\": "tests/unit/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
