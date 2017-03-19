@@ -29,6 +29,13 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     protected $cache = null;
 
     /**
+     * Skip cache
+     *
+     * @var bool
+     */
+    protected $skipCache = false;
+
+    /**
      * Set Cache
      *
      * Sets the Cache Manager to the model that is used later to obtain and store
@@ -40,6 +47,20 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     public function setCache(CacheManager $cache): Model
     {
         $this->cache = $cache;
+        return $this;
+    }
+
+    /**
+     * Skip cache
+     *
+     * The next call to retrieve data will ignore cache, nor will it store the retrieved
+     * data to cache.
+     *
+     * @return self
+     */
+    public function skipCache(): Model
+    {
+        $this->skipCache = true;
         return $this;
     }
 
@@ -61,15 +82,23 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
         $name = "database_{$this->table}_"
             . sha1($this->qBuilder->getPredicates()->convert());
 
-        try {
-            $result = $this->cache->read($name);
-            return $result;
-        } catch (CacheDataNotFoundException $e) {
-            $this->logger->info("Data not found for query");
+        if ($this->skipCache === false) {
+            try {
+                $result = $this->cache->read($name);
+                $this->skipCache = false;
+                return $result;
+            } catch (CacheDataNotFoundException $e) {
+                $this->logger->info("Data not found for query");
+            }
         }
 
         $result = parent::select($columns);
-        $this->cache->write($name, $result);
+
+        if ($this->skipCache === false) {
+            $this->cache->write($name, $result);
+            $this->skipCache = false;
+        }
+
         return $result;
     }
 }
