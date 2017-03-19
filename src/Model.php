@@ -84,21 +84,20 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
 
         if ($this->skipCache === false) {
             try {
-                $result = $this->cache->read($name);
+                $this->result = $this->cache->read($name);
                 $this->skipCache = false;
-                return $result;
+                return $this->result;
             } catch (CacheDataNotFoundException $e) {
                 $this->logger->info("Data not found for query");
             }
         }
 
-        $result = parent::select($columns);
-
+        parent::select($columns);
         if ($this->skipCache === false) {
-            $this->cache->write($name, $result);
+            $this->cache->write($name, $this->result);
             $this->skipCache = false;
         }
 
-        return $result;
+        return $this->result;
     }
 }
