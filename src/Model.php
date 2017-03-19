@@ -81,7 +81,10 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
         }
 
         $name = "database_{$this->table}_"
-            . sha1($this->qBuilder->getPredicates()->convert());
+            . sha1(
+                $this->qBuilder->getPredicates()->convert()
+                . implode("", $columns)
+            );
 
         if ($this->skipCache === false) {
             try {
