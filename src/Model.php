@@ -67,5 +67,9 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
         } catch (CacheDataNotFoundException $e) {
             $this->logger->info("Data not found for query");
         }
+
+        $result = parent::select($columns);
+        $this->cache->write($name, $result);
+        return $result;
     }
 }
