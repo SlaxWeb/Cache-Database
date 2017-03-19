@@ -33,7 +33,7 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      *
      * @var bool
      */
-    protected $skipCache = false;
+    protected $skipCache = true;
 
     /**
      * Set Cache
@@ -47,6 +47,7 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     public function setCache(CacheManager $cache): Model
     {
         $this->cache = $cache;
+        $this->skipCache = false;
         return $this;
     }
 
