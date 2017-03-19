@@ -47,8 +47,6 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      *
      * Checks if the cache contains a record for the desired query, and returns
      * the cached result object.
-     *
-     * @todo: functionality
      */
     public function select(array $columns): ResultInterface
     {
@@ -58,5 +56,8 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
                 ["model" => get_class($this)]
             );
         }
+
+        $name = "database_{$this->table}_"
+            . sha1($this->qBuilder->getPredicates()->convert());
     }
 }
