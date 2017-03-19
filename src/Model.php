@@ -2,7 +2,7 @@
 namespace SlaxWeb\Cache\Database;
 
 use SlaxWeb\Cache\Manager as CacheManager;
-use SlaxWeb\Cache\Exception\CacheDataNotFoundException;
+use SlaxWeb\Cache\Exception\CacheException;
 use SlaxWeb\Database\Interfaces\Result as ResultInterface;
 
 /**
