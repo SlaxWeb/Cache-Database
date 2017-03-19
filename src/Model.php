@@ -88,8 +88,11 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
                 $this->result = $this->cache->read($name);
                 $this->skipCache = false;
                 return $this->result;
-            } catch (CacheDataNotFoundException $e) {
-                $this->logger->info("Data not found for query");
+            } catch (CacheException $e) {
+                $this->logger->info(
+                    "Error trying to obtain data from cache for query. Proceeding "
+                    . "with normal execution of query."
+                );
             }
         }
 
