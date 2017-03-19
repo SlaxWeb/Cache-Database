@@ -2,6 +2,7 @@
 namespace SlaxWeb\Cache\Database;
 
 use SlaxWeb\Cache\Manager as CacheManager;
+use SlaxWeb\Cache\Exception\CacheDataNotFoundException;
 use SlaxWeb\Database\Interfaces\Result as ResultInterface;
 
 /**
@@ -59,5 +60,12 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
 
         $name = "database_{$this->table}_"
             . sha1($this->qBuilder->getPredicates()->convert());
+
+        try {
+            $result = $this->cache->read($name);
+            return $result;
+        } catch (CacheDataNotFoundException $e) {
+            $this->logger->info("Data not found for query");
+        }
     }
 }
