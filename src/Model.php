@@ -73,13 +73,6 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      */
     public function select(array $columns): ResultInterface
     {
-        if ($this->primKey === "") {
-            $this->logger->warning(
-                "Primary key of model not set.",
-                ["model" => get_class($this)]
-            );
-        }
-
         $name = "database_{$this->table}_"
             . sha1(
                 $this->qBuilder->getPredicates()->convert()
