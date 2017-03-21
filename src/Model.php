@@ -29,6 +29,13 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     protected $cache = null;
 
     /**
+     * Cache name
+     *
+     * @var string
+     */
+    protected $cachename = "";
+
+    /**
      * Skip cache
      *
      * @var bool
@@ -66,6 +73,22 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     }
 
     /**
+     * Set Cache Name
+     *
+     * Sets the cache name that will be included to the default cache name when
+     * writting to cache. If the cache name is set, the 'update' method will automatically
+     * remove this models cache for that name.
+     *
+     * @param string $name Cache name
+     * @return self
+     */
+    public function setCacheName(string $name): Model
+    {
+        $this->cacheName = $name;
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      *
      * Checks if the cache contains a record for the desired query, and returns
@@ -73,11 +96,12 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      */
     public function select(array $columns): ResultInterface
     {
-        $name = "database_{$this->table}_"
+        $name = "database_{$this->table}{$this->cacheName}_"
             . sha1(
                 $this->qBuilder->getPredicates()->convert()
                 . implode("", $columns)
             );
+        $this->cacheName = "";
 
         if ($this->skipCache === false) {
             try {
