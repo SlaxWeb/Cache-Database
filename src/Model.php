@@ -124,4 +124,20 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
 
         return $this->result;
     }
+
+    /**
+     * @inheritDoc
+     *
+     * If the 'cacheName' property is set, then the cached data that contanis that
+     * name will be removed.
+     */
+    public function update(array $columns): bool
+    {
+        if ($this->cacheName !== "") {
+            $this->cache->remove("database_{$this->table}{$this->cacheName}", true);
+            $this->cacheName= "";
+        }
+
+        return parent::update($columns);
+    }
 }
