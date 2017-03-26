@@ -33,7 +33,7 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      *
      * @var string
      */
-    protected $cachename = "";
+    protected $cacheName = "";
 
     /**
      * Skip cache
