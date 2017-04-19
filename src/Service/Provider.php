@@ -28,14 +28,20 @@ class Provider implements \Pimple\ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app->extend(
-            "loadDBModel.service",
-            function(\SlaxWeb\Database\BaseModel $model, Container $app) {
-                if ($model instanceof \SlaxWeb\Cache\Database\Model) {
-                    $model->setCache($app["cache.service"]);
+        if (isset($app["loadDBModel.service"])) {
+            $app->extend(
+                "loadDBModel.service",
+                function(\SlaxWeb\Database\BaseModel $model, Container $app) {
+                    if ($model instanceof \SlaxWeb\Cache\Database\Model) {
+                        $model->setCache($app["cache.service"]);
+                    }
+                    return $model;
                 }
-                return $model;
-            }
-        );
+            );
+        } else {
+            $app["logger.service"]("System")->error(
+                "The 'database' component is not installed. Unable to extend 'loadDBModel.service'."
+            );
+        }
     }
 }
