@@ -28,9 +28,9 @@ class Provider implements \Pimple\ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        if (isset($app["loadDBModel.service"])) {
+        if (isset($app["dbModelLoader.service"])) {
             $app->extend(
-                "loadDBModel.service",
+                "dbModelLoader.service",
                 function(\SlaxWeb\Database\BaseModel $model, Container $app) {
                     if ($model instanceof \SlaxWeb\Cache\Database\Model) {
                         $model->setCache($app["cache.service"]);

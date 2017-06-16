@@ -10,7 +10,7 @@
     ],
     "require": {
         "php":  ">=7.0.0",
-        "slaxweb/database": "~0.6",
+        "slaxweb/database": "^0.6.1",
         "slaxweb/cache": "~0.1",
         "slaxweb/logger": "~0.5"
     },
