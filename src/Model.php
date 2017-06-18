@@ -107,7 +107,6 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
         if ($this->skipCache === false) {
             try {
                 $this->result = $this->cache->read($name);
-                $this->skipCache = false;
                 return $this->result;
             } catch (CacheException $e) {
                 $this->logger->info(
@@ -120,7 +119,6 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
         parent::select($columns);
         if ($this->skipCache === false) {
             $this->cache->write($name, $this->result);
-            $this->skipCache = false;
         }
 
         return $this->result;
