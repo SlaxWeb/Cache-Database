@@ -96,6 +96,7 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
      */
     public function select(array $columns): ResultInterface
     {
+        $this->qBuilder->table($this->table);
         $name = "database_{$this->table}{$this->cacheName}_"
             . sha1(
                 $this->qBuilder->getPredicates()->convert()
@@ -135,7 +136,7 @@ abstract class Model extends \SlaxWeb\Database\BaseModel
     {
         if ($this->cacheName !== "") {
             $this->cache->remove("database_{$this->table}{$this->cacheName}", true);
-            $this->cacheName= "";
+            $this->cacheName = "";
         }
 
         return parent::update($columns);
